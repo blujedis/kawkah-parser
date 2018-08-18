@@ -1,0 +1,25 @@
+import { IKawhakParserOptions } from './interfaces';
+export declare const FLAG_EXP: RegExp;
+export declare const FLAG_SHORT: RegExp;
+export declare const FLAG_DOT_NOTA: RegExp;
+export declare const FLAG_COUNT: RegExp;
+export declare const ARG_OPT: RegExp;
+export declare const ARG_REQ: RegExp;
+export declare const ARG_DOT_NOTA: RegExp;
+export declare const LIKE_BOOLEAN: RegExp;
+export declare const LIKE_NUMBER: RegExp;
+export declare const LIKE_HEX_NUMBER: RegExp;
+export declare const FLAG_EXP_ANY: RegExp;
+export declare const ARG_OPT_ANY: RegExp;
+export declare const ARG_REQ_ANY: RegExp;
+export declare const NEGATE_CHAR = "no-";
+export declare const VARIADIC_CHAR = "...";
+export declare const ABORT_CHAR = "--";
+export declare const SUPPORTED_TYPES: string[];
+export declare const PARSER_DEFAULTS: IKawhakParserOptions;
+export declare const DEFAULT_TYPE_VALUES: {
+    string: string;
+    array: any[];
+    boolean: boolean;
+    number: any;
+};

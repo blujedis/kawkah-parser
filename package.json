@@ -1,0 +1,73 @@
+{
+  "name": "kawkah-parser",
+  "version": "0.1.0",
+  "description": "Simple CLI argument parser used by Kawkah.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blujedis/kawkah-parser.git"
+  },
+  "build": {
+    "clean": [
+      "./dist"
+    ],
+    "copy": []
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "exclude": [
+      "src/**/*.spec.ts"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "./build/spec"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  },
+  "keywords": [
+    "yargs",
+    "commander",
+    "parser",
+    "minimist",
+    "arguments",
+    "cli"
+  ],
+  "author": "Blujedi <blujedicorp@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blujedis/kawkah-parser/issues"
+  },
+  "homepage": "https://github.com/blujedis/kawkah-parser#readme",
+  "devDependencies": {
+    "@types/camelcase": "^4.1.0",
+    "@types/chai": "^4.1.3",
+    "@types/dot-prop": "^4.2.0",
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^10.1.1",
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1",
+    "nyc": "^11.8.0",
+    "stiks": "^1.1.6",
+    "ts-node": "^6.0.5",
+    "tslint": "^5.10.0",
+    "typedoc": "^0.11.1",
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "chek": "^1.3.1",
+    "escape-string-regexp": "^1.0.5"
+  }
+}
