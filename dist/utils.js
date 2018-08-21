@@ -121,6 +121,19 @@ exports.isType = {
     array: function (val) { return Array.isArray(val); }
 };
 /**
+ * Camelize string, ignore dot notation strings when strict.
+ *
+ * @param val the value to camelize
+ * @param strict when true dot notation values ignored.
+ */
+function toCamelcase(val, strict) {
+    if (strict === void 0) { strict = true; }
+    if (!strict || !/\S+\.[^\.]\S+/.test(val))
+        return chek_1.camelcase(val);
+    return val;
+}
+exports.toCamelcase = toCamelcase;
+/**
  * Checks if value is a flag option.
  *
  * @example --flag or -f
@@ -393,6 +406,30 @@ function stripFlag(val, negate) {
     return (val || '').replace(new RegExp('^--?(' + negate + ')?'), '');
 }
 exports.stripFlag = stripFlag;
+/**
+ * Strips negate chars from flag.
+ *
+ * @param val the value to be stripped.
+ * @param negate the characters denoting negate.
+ */
+function stripNegate(val, negate) {
+    negate = escape(negate || constants_1.NEGATE_CHAR);
+    var exp = new RegExp('^' + negate);
+    return val.replace(exp, '');
+}
+exports.stripNegate = stripNegate;
+/**
+ * Strips variadic chars from flag.
+ *
+ * @param val the value to be stripped.
+ * @param negate the characters denoting variadic.
+ */
+function stripVariadic(val, variadic) {
+    variadic = escape(variadic || constants_1.VARIADIC_CHAR);
+    var exp = new RegExp(variadic + '$');
+    return val.replace(exp, '');
+}
+exports.stripVariadic = stripVariadic;
 /**
  * Strips all tokens from string.
  *

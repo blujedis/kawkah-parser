@@ -16,7 +16,7 @@ export interface IKawkahParserIsType {
   array: KawkahParserTypeHandler<boolean>;
 }
 
-export interface IKawkahParserOption {
+export interface IKawkahParserConfig {
   readonly anon?: boolean; // used internally.
   readonly name?: string; // used internally.
   index?: number; // positional option.
@@ -26,8 +26,8 @@ export interface IKawkahParserOption {
   default?: any;
 }
 
-export interface IKawkahParserOptions {
-  [key: string]: IKawkahParserOption | KawkahParserType;
+export interface IKawkahParserConfigs {
+  [key: string]: IKawkahParserConfig | KawkahParserType;
 }
 
 // MAIN INTERFACES //
@@ -47,7 +47,7 @@ export interface IKawkahParsedArg {
   ingest?: boolean;
   ingestable?: boolean;
 
-  config?: IKawkahParserOption;
+  config?: IKawkahParserConfig;
 
 }
 
@@ -75,13 +75,13 @@ export interface IKawhakParserBaseOptions {
 
 }
 
-export interface IKawhakParserOptions extends IKawhakParserBaseOptions {
-  options?: IKawkahParserOptions;
+export interface IKawkahParserOptions extends IKawhakParserBaseOptions {
+  options?: IKawkahParserConfigs;
   onParserError?: (err: Error, template?: string, args?: any[]) => void;
 }
 
 export interface IKawkahParserResult {
   _?: any[];
   __?: any[];
-  [option: string]: any;
+  [key: string]: any;
 }

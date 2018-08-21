@@ -1,4 +1,4 @@
-import { IKawhakParserOptions } from './interfaces';
+import { IKawkahParserOptions, IKawkahParserResult } from './interfaces';
 /**
  * Parses provided arguments or uses process.argv.
  *
@@ -9,4 +9,4 @@ import { IKawhakParserOptions } from './interfaces';
  * @param argv string or array to be parsed.
  * @param options parser options.
  */
-export declare function parse(argv?: string | any[], options?: IKawhakParserOptions): any;
+export declare function parse(argv?: string | any[], options?: IKawkahParserOptions): IKawkahParserResult;

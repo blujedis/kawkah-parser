@@ -1,5 +1,5 @@
 import * as escape from 'escape-string-regexp';
-import { isUndefined, isNumber } from 'chek';
+import { isUndefined, isNumber, camelcase } from 'chek';
 import { IKawkahParserToTypes, IKawkahParserIsType } from './interfaces';
 import { LIKE_BOOLEAN, LIKE_NUMBER, LIKE_HEX_NUMBER, FLAG_EXP, FLAG_SHORT, FLAG_COUNT, FLAG_DOT_NOTA, ARG_REQ, ARG_OPT, ARG_DOT_NOTA, NEGATE_CHAR, VARIADIC_CHAR, FLAG_EXP_ANY, ARG_OPT_ANY, ARG_REQ_ANY, DEFAULT_TYPE_VALUES } from './constants';
 import { isNullOrUndefined } from 'util';
@@ -129,6 +129,18 @@ export const isType: IKawkahParserIsType = {
    */
   array: (val: any) => Array.isArray(val)
 };
+
+/**
+ * Camelize string, ignore dot notation strings when strict.
+ *
+ * @param val the value to camelize
+ * @param strict when true dot notation values ignored.
+ */
+export function toCamelcase(val: string, strict: boolean = true) {
+  if (!strict || !/\S+\.[^\.]\S+/.test(val))
+    return camelcase(val);
+  return val;
+}
 
 /**
  * Checks if value is a flag option.
@@ -413,6 +425,30 @@ export function isArgVariadicRequired(val: any, variadic: string) {
 export function stripFlag(val: any, negate: string) {
   negate = escape(negate || NEGATE_CHAR);
   return (val || '').replace(new RegExp('^--?(' + negate + ')?'), '');
+}
+
+/**
+ * Strips negate chars from flag.
+ *
+ * @param val the value to be stripped.
+ * @param negate the characters denoting negate.
+ */
+export function stripNegate(val: any, negate?: string) {
+  negate = escape(negate || NEGATE_CHAR);
+  const exp = new RegExp('^' + negate);
+  return val.replace(exp, '');
+}
+
+/**
+ * Strips variadic chars from flag.
+ *
+ * @param val the value to be stripped.
+ * @param negate the characters denoting variadic.
+ */
+export function stripVariadic(val: any, variadic?: string) {
+  variadic = escape(variadic || VARIADIC_CHAR);
+  const exp = new RegExp(variadic + '$');
+  return val.replace(exp, '');
 }
 
 /**

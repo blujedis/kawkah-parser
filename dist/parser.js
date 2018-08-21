@@ -31,8 +31,8 @@ function parse(argv, options) {
         options.onParserError(err, template, args);
     }
     function getConfig(key) {
-        if (utils_1.isType.string(key))
-            key = utils_1.stripTokens(key || '', options.charNegate, options.charVariadic);
+        // if (isType.string(key) && options.allowCamelcase)
+        //   key = camelcase(<string>key);
         return _configs[_aliases[key]];
     }
     function castType(val, config) {
@@ -122,13 +122,20 @@ function parse(argv, options) {
             configs: configs
         };
     }
-    function stripArg(arg) {
-        arg = arg + '';
-        return utils_1.stripFlag(arg, options.charNegate).replace(options.charVariadic, '');
-    }
     function breakoutArg(arg) {
-        arg = stripArg(arg);
+        if (utils_1.isType.number(arg))
+            return {
+                key: arg,
+                value: null
+            };
+        var hasFlag = utils_1.isFlag(arg);
+        if (hasFlag)
+            arg = utils_1.stripFlag(arg, options.charNegate);
+        else
+            arg = utils_1.stripVariadic(arg, options.charVariadic);
         var split = arg.split('=');
+        if (hasFlag && options.allowCamelcase)
+            split[0] = utils_1.toCamelcase(split[0]);
         return {
             key: split[0],
             value: split[1] || null
@@ -307,7 +314,7 @@ function parse(argv, options) {
             // unless it's past the first.
             if (!ingestable)
                 break;
-            result.push(stripArg(arg));
+            result.push(utils_1.stripTokens(arg, options.charNegate, options.charVariadic));
             ctr += 1;
         }
         n = parsed.isFlagWithValue ? n - 1 : i + (ctr - 1);
@@ -351,8 +358,11 @@ function parse(argv, options) {
         // Parse the argument returning helpers.
         var parsed = parseArg(k, argv, i);
         // Anonymous flags/args are not allowed.
-        if (!options.allowAnonymous && parsed.config.anon)
-            continue;
+        if (!options.allowAnonymous && parsed.config.anon) {
+            var label = parsed.isFlag ? 'Flag' : 'Argument';
+            handleError("%s %s failed: invalidated by anonymous prohibited (value: %s).", label, parsed.key, parsed.value);
+            break;
+        }
         if (parsed.ingest) {
             var tmp = ingest(argv, i, parsed);
             i = tmp.i;

@@ -1,4 +1,4 @@
-import { IKawhakParserOptions } from './interfaces';
+import { IKawkahParserOptions } from './interfaces';
 
 export const FLAG_EXP = /^--?/;
 export const FLAG_SHORT = /^-(?!-).+$/;
@@ -20,7 +20,7 @@ export const VARIADIC_CHAR = '...';
 export const ABORT_CHAR = '--';
 export const SUPPORTED_TYPES = ['string', 'boolean', 'number', 'array'];
 
-export const PARSER_DEFAULTS: IKawhakParserOptions = {
+export const PARSER_DEFAULTS: IKawkahParserOptions = {
 
   charVariadic: '...',                 // char denoting variadic argument.
   charAbort: '--',                     // when seen all args/opts after are ignored.

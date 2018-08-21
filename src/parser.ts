@@ -1,8 +1,8 @@
 import { get, set, has, camelcase, flatten, isValue, isUndefined } from 'chek';
 import { format } from 'util';
 import { PARSER_DEFAULTS, SUPPORTED_TYPES } from './constants';
-import { expandArgs, isFlag, isNegateFlag, isFlagCount, expandOptions, isLikeBoolean, isLikeNumber, stripFlag, hasOwn, isDotNotationFlag, stripTokens, ensureDefault, isFlagShort, toType, isType, isTruthyVariadic } from './utils';
-import { IKawhakParserOptions, IKawkahParserOption, IKawkahParsedArg, IKawkahParserOptions } from './interfaces';
+import { expandArgs, isFlag, isNegateFlag, isFlagCount, expandOptions, isLikeBoolean, isLikeNumber, stripFlag, hasOwn, isDotNotationFlag, stripTokens, ensureDefault, isFlagShort, toType, isType, isTruthyVariadic, toCamelcase, stripVariadic } from './utils';
+import { IKawkahParserOptions, IKawkahParserConfig, IKawkahParsedArg, IKawkahParserConfigs, IKawkahParserResult } from './interfaces';
 
 /**
  * Parses provided arguments or uses process.argv.
@@ -14,7 +14,7 @@ import { IKawhakParserOptions, IKawkahParserOption, IKawkahParsedArg, IKawkahPar
  * @param argv string or array to be parsed.
  * @param options parser options.
  */
-export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
+export function parse(argv?: string | any[], options?: IKawkahParserOptions): IKawkahParserResult {
 
   options = Object.assign({}, PARSER_DEFAULTS, options);
 
@@ -31,10 +31,10 @@ export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
     options.onParserError(err, template, args);
   }
 
-  function getConfig(key: string | number): IKawkahParserOption {
-    if (isType.string(key))
-      key = stripTokens(key || '', options.charNegate, options.charVariadic);
-    return _configs[_aliases[key]] as IKawkahParserOptions;
+  function getConfig(key: string | number): IKawkahParserConfig {
+    // if (isType.string(key) && options.allowCamelcase)
+    //   key = camelcase(<string>key);
+    return _configs[_aliases[key]] as IKawkahParserConfigs;
   }
 
   function castType(val, config) {
@@ -89,17 +89,17 @@ export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
     const variadicKeys = [];
     const indexKeys = [];
 
-    const configs: IKawkahParserOptions = options.options;
+    const configs: IKawkahParserConfigs = options.options;
 
     for (const k in configs) {
 
       if (isType.string(configs[k])) {
         configs[k] = {
           type: configs[k]
-        } as IKawkahParserOption;
+        } as IKawkahParserConfig;
       }
 
-      const config = configs[k] as IKawkahParserOption;
+      const config = configs[k] as IKawkahParserConfig;
       configs[k]['name'] = configs[k]['name'] || k;
       config.type = config.type || 'string';
 
@@ -135,7 +135,7 @@ export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
 
       aliasMap[k] = k;
 
-      (configs[k] as IKawkahParserOption).alias = (config.alias as string[]).map(v => {
+      (configs[k] as IKawkahParserConfig).alias = (config.alias as string[]).map(v => {
         v = stripFlag(v, options.charNegate);
         aliasMap[v] = k; // update all aliases.
         return v;
@@ -151,14 +151,20 @@ export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
 
   }
 
-  function stripArg(arg: string) {
-    arg = arg + '';
-    return stripFlag(arg, options.charNegate).replace(options.charVariadic, '');
-  }
-
-  function breakoutArg(arg: string) {
-    arg = stripArg(arg);
-    const split = arg.split('=');
+  function breakoutArg(arg: string | number) {
+    if (isType.number(arg))
+      return {
+        key: arg,
+        value: null
+      };
+    const hasFlag = isFlag(arg);
+    if (hasFlag)
+      arg = stripFlag(arg, options.charNegate);
+    else
+      arg = stripVariadic(arg, options.charVariadic);
+    const split = (arg as string).split('=');
+    if (hasFlag && options.allowCamelcase)
+      split[0] = toCamelcase(split[0]);
     return {
       key: split[0],
       value: split[1] || null
@@ -334,7 +340,7 @@ export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
 
   }
 
-  function setArg(key: string | number, val: any, config: IKawkahParserOption) {
+  function setArg(key: string | number, val: any, config: IKawkahParserConfig) {
 
     let cur;
 
@@ -403,7 +409,7 @@ export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
       if (!ingestable)
         break;
 
-      result.push(stripArg(arg));
+      result.push(stripTokens(arg, options.charNegate, options.charVariadic));
       ctr += 1;
 
     }
@@ -464,8 +470,11 @@ export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
     const parsed = parseArg(k, argv, i);
 
     // Anonymous flags/args are not allowed.
-    if (!options.allowAnonymous && parsed.config.anon)
-      continue;
+    if (!options.allowAnonymous && parsed.config.anon) {
+      const label = parsed.isFlag ? 'Flag' : 'Argument';
+      handleError(`%s %s failed: invalidated by anonymous prohibited (value: %s).`, label, parsed.key, parsed.value);
+      break;
+    }
 
     if (parsed.ingest) {
       const tmp = ingest(argv, i, parsed);
@@ -487,7 +496,7 @@ export function parse(argv?: string | any[], options?: IKawhakParserOptions) {
 
     let config = _configs[k];
 
-    config = <IKawkahParserOption>config;
+    config = <IKawkahParserConfig>config;
     const hasIndex = hasOwn(config, 'index');
 
     let exists = hasIndex ? !isUndefined(_result._[config.index]) : has(_result, k);

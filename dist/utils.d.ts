@@ -34,6 +34,13 @@ export declare function hasOwn(obj: object, key: string | number): boolean;
 export declare const toType: IKawkahParserToTypes;
 export declare const isType: IKawkahParserIsType;
 /**
+ * Camelize string, ignore dot notation strings when strict.
+ *
+ * @param val the value to camelize
+ * @param strict when true dot notation values ignored.
+ */
+export declare function toCamelcase(val: string, strict?: boolean): string;
+/**
  * Checks if value is a flag option.
  *
  * @example --flag or -f
@@ -208,6 +215,20 @@ export declare function isArgVariadicRequired(val: any, variadic: string): any;
  * @param negate the negation char defined in options.
  */
 export declare function stripFlag(val: any, negate: string): any;
+/**
+ * Strips negate chars from flag.
+ *
+ * @param val the value to be stripped.
+ * @param negate the characters denoting negate.
+ */
+export declare function stripNegate(val: any, negate?: string): any;
+/**
+ * Strips variadic chars from flag.
+ *
+ * @param val the value to be stripped.
+ * @param negate the characters denoting variadic.
+ */
+export declare function stripVariadic(val: any, variadic?: string): any;
 /**
  * Strips all tokens from string.
  *

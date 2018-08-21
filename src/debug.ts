@@ -1,7 +1,7 @@
 import * as parser from './parser';
-import { IKawhakParserOptions } from './interfaces';
+import { IKawkahParserOptions } from './interfaces';
 
-const options: IKawhakParserOptions = {
+const options: IKawkahParserOptions = {
   allowCamelcase: false
 };
 

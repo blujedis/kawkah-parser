@@ -1,4 +1,4 @@
-import { IKawhakParserOptions } from './interfaces';
+import { IKawkahParserOptions } from './interfaces';
 export declare const FLAG_EXP: RegExp;
 export declare const FLAG_SHORT: RegExp;
 export declare const FLAG_DOT_NOTA: RegExp;
@@ -16,7 +16,7 @@ export declare const NEGATE_CHAR = "no-";
 export declare const VARIADIC_CHAR = "...";
 export declare const ABORT_CHAR = "--";
 export declare const SUPPORTED_TYPES: string[];
-export declare const PARSER_DEFAULTS: IKawhakParserOptions;
+export declare const PARSER_DEFAULTS: IKawkahParserOptions;
 export declare const DEFAULT_TYPE_VALUES: {
     string: string;
     array: any[];
