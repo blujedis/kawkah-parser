@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IKawkahParserResult | Kawkah Parser</title>
+	<title>IKawkahParserConfig | Kawkah Parser</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_interfaces_.html">&quot;interfaces&quot;</a>
 				</li>
 				<li>
-					<a href="_interfaces_.ikawkahparserresult.html">IKawkahParserResult</a>
+					<a href="_interfaces_.ikawkahparserconfig.html">IKawkahParserConfig</a>
 				</li>
 			</ul>
-			<h1>Interface IKawkahParserResult</h1>
+			<h1>Interface IKawkahParserConfig</h1>
 		</div>
 	</div>
 </header>
@@ -73,13 +73,9 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IKawkahParserResult</span>
+						<span class="target">IKawkahParserConfig</span>
 					</li>
 				</ul>
-			</section>
-			<section class="tsd-panel tsd-kind-interface tsd-parent-kind-external-module">
-				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
@@ -88,8 +84,13 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserresult.html#_" class="tsd-kind-icon">_</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserresult.html#__" class="tsd-kind-icon">__</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserconfig.html#alias" class="tsd-kind-icon">alias</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserconfig.html#anon" class="tsd-kind-icon">anon</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserconfig.html#default" class="tsd-kind-icon">default</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserconfig.html#index" class="tsd-kind-icon">index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserconfig.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserconfig.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_.ikawkahparserconfig.html#variadic" class="tsd-kind-icon">variadic</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,22 +99,72 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="_" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> _</h3>
-					<div class="tsd-signature tsd-kind-icon">_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="alias" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> alias</h3>
+					<div class="tsd-signature tsd-kind-icon">alias<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L84">interfaces.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L24">interfaces.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="__" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> __</h3>
-					<div class="tsd-signature tsd-kind-icon">__<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="anon" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> anon</h3>
+					<div class="tsd-signature tsd-kind-icon">anon<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L85">interfaces.ts:85</a></li>
+							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L20">interfaces.ts:20</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="default" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> default</h3>
+					<div class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L26">interfaces.ts:26</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="index" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> index</h3>
+					<div class="tsd-signature tsd-kind-icon">index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L22">interfaces.ts:22</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="name" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L21">interfaces.ts:21</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="type" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../modules/_interfaces_.html#kawkahparsertype" class="tsd-signature-type">KawkahParserType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L23">interfaces.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="variadic" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> variadic</h3>
+					<div class="tsd-signature tsd-kind-icon">variadic<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blujedis/kawkah-parser/blob/ea508ad/src/interfaces.ts#L25">interfaces.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -150,9 +201,36 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_interfaces_.ikawkahparsedarg.html" class="tsd-kind-icon">IKawkah<wbr>Parsed<wbr>Arg</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_interfaces_.ikawkahparserconfig.html" class="tsd-kind-icon">IKawkah<wbr>Parser<wbr>Config</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_interfaces_.ikawkahparserconfig.html#alias" class="tsd-kind-icon">alias</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_interfaces_.ikawkahparserconfig.html#anon" class="tsd-kind-icon">anon</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_interfaces_.ikawkahparserconfig.html#default" class="tsd-kind-icon">default</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_interfaces_.ikawkahparserconfig.html#index" class="tsd-kind-icon">index</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_interfaces_.ikawkahparserconfig.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_interfaces_.ikawkahparserconfig.html#type" class="tsd-kind-icon">type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_interfaces_.ikawkahparserconfig.html#variadic" class="tsd-kind-icon">variadic</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_interfaces_.ikawkahparserconfigs.html" class="tsd-kind-icon">IKawkah<wbr>Parser<wbr>Configs</a>
 					</li>
@@ -162,21 +240,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_interfaces_.ikawkahparseroptions.html" class="tsd-kind-icon">IKawkah<wbr>Parser<wbr>Options</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_interfaces_.ikawkahparserresult.html" class="tsd-kind-icon">IKawkah<wbr>Parser<wbr>Result</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_interfaces_.ikawkahparserresult.html#_" class="tsd-kind-icon">_</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_interfaces_.ikawkahparserresult.html#__" class="tsd-kind-icon">__</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_interfaces_.ikawkahparsertotypes.html" class="tsd-kind-icon">IKawkah<wbr>Parser<wbr>ToTypes</a>
 					</li>
