@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> Kawkah Parser</h1>
+			<h1>Kawkah Parser</h1>
 		</div>
 	</div>
 </header>
@@ -70,16 +70,18 @@
 				<p>The argument parser for Kawkah. If you&#39;re looking for a full blow CLI parser you probably want <a href="https://github.com/blujedis/kawkah">Kawkah</a>. You can think of kawkah-parser as sort of a normalizer before
 					you would validate the parsed result against a schema then trigger perhaps an action. If you
 				simply want to parse whatcha got and then handle constraints/coercion yourself kawkah-parser works great.</p>
-				<h2 id="install">Install</h2>
-				<pre><code class="lang-sh">$ npm install kawkah-parser
-</code></pre>
-				<h2 id="usage">Usage</h2>
-				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { parse } <span class="hljs-keyword">from</span> <span class="hljs-string">'kawkah-parser'</span>;
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h2>Install</h2>
+				</a>
+				<pre><code class="language-sh">$ npm install kawkah-parser</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { parse } <span class="hljs-keyword">from</span> <span class="hljs-string">'kawkah-parser'</span>;
 <span class="hljs-keyword">const</span> args = <span class="hljs-string">'install /some/path names... tim sally joe --user.name bob --force --tags red --tags blue -abc -vvvvv --no-rename'</span>;
-<span class="hljs-keyword">const</span> result = parse();
-</code></pre>
+<span class="hljs-keyword">const</span> result = parse();</code></pre>
 				<p>Your result would be:</p>
-				<pre><code class="lang-ts">result = {
+				<pre><code class="language-ts">result = {
   _: [<span class="hljs-string">'install'</span>, <span class="hljs-string">'/some/path'</span>],
   force: <span class="hljs-literal">true</span>,
   tags: [<span class="hljs-string">'red'</span>, <span class="hljs-string">'blue'</span>],
@@ -91,148 +93,185 @@
   v: <span class="hljs-number">5</span>,
   rename: <span class="hljs-literal">false</span>,
   __: []
-};
-</code></pre>
-				<h2 id="options">Options</h2>
+};</code></pre>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h2>Options</h2>
+				</a>
 				<p>For addtional option detail and API info see <a href="#Docs">Docs</a> below.</p>
-				<h3 id="charvariadic">charVariadic</h3>
+				<a href="#charvariadic" id="charvariadic" style="color: inherit; text-decoration: none;">
+					<h3>charVariadic</h3>
+				</a>
 				<p>Character denoting variadic arguments.</p>
-				<pre><code class="lang-ts"><span class="hljs-keyword">const</span> args = <span class="hljs-string">'create blog java... c python javascript'</span>
-<span class="hljs-keyword">const</span> result = parse(args);
-</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> args = <span class="hljs-string">'create blog java... c python javascript'</span>
+<span class="hljs-keyword">const</span> result = parse(args);</code></pre>
 				<p>Result would be:</p>
-				<pre><code class="lang-ts">result = {
+				<pre><code class="language-ts">result = {
   _: [<span class="hljs-string">'create'</span>, <span class="hljs-string">'blog'</span>, [<span class="hljs-string">'java'</span>, <span class="hljs-string">'c'</span>, <span class="hljs-string">'python'</span>, <span class="hljs-string">'javascript'</span>]],
-};
-</code></pre>
+};</code></pre>
 				<table>
 					<tr><td>Type</td><td>string</td></tr>
 					<tr><td>Default</td><td>...</td></tr>
 				</table>
-				<h3 id="charabort">charAbort</h3>
+				<a href="#charabort" id="charabort" style="color: inherit; text-decoration: none;">
+					<h3>charAbort</h3>
+				</a>
 				<p>Character used to abort parsing of args.</p>
-				<pre><code class="lang-ts"><span class="hljs-keyword">const</span> args = <span class="hljs-string">'create blog -- ignore1 ignore2'</span>
-<span class="hljs-keyword">const</span> result = parse(args);
-</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> args = <span class="hljs-string">'create blog -- ignore1 ignore2'</span>
+<span class="hljs-keyword">const</span> result = parse(args);</code></pre>
 				<p>Result would be:</p>
-				<pre><code class="lang-ts">result = {
+				<pre><code class="language-ts">result = {
   _: [<span class="hljs-string">'create'</span>, <span class="hljs-string">'blog'</span>],
   __: [<span class="hljs-string">'ignore1'</span>, <span class="hljs-string">'ignore2'</span>]
-};
-</code></pre>
+};</code></pre>
 				<table>
 					<tr><td>Type</td><td>string</td></tr>
 					<tr><td>Default</td><td>--</td></tr>
 				</table>
-				<h3 id="charnegate">charNegate</h3>
+				<a href="#charnegate" id="charnegate" style="color: inherit; text-decoration: none;">
+					<h3>charNegate</h3>
+				</a>
 				<p>Character used to negate boolean flags.</p>
-				<pre><code class="lang-ts"><span class="hljs-keyword">const</span> args = <span class="hljs-string">'--no-force'</span>
-<span class="hljs-keyword">const</span> result = parse(args);
-</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> args = <span class="hljs-string">'--no-force'</span>
+<span class="hljs-keyword">const</span> result = parse(args);</code></pre>
 				<p>Result would be:</p>
-				<pre><code class="lang-ts">result = {
+				<pre><code class="language-ts">result = {
   force: <span class="hljs-literal">false</span>
-};
-</code></pre>
+};</code></pre>
 				<table>
 					<tr><td>Type</td><td>string</td></tr>
 					<tr><td>Default</td><td>no-</td></tr>
 				</table>
-				<h3 id="allowparsebooleans">allowParseBooleans</h3>
+				<a href="#allowparsebooleans" id="allowparsebooleans" style="color: inherit; text-decoration: none;">
+					<h3>allowParseBooleans</h3>
+				</a>
 				<p>Allows parsing flags as boolean.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowparsenumbers">allowParseNumbers</h3>
+				<a href="#allowparsenumbers" id="allowparsenumbers" style="color: inherit; text-decoration: none;">
+					<h3>allowParseNumbers</h3>
+				</a>
 				<p>Allows parsing number like values.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowcamelcase">allowCamelcase</h3>
+				<a href="#allowcamelcase" id="allowcamelcase" style="color: inherit; text-decoration: none;">
+					<h3>allowCamelcase</h3>
+				</a>
 				<p>Allow converting some-flag to someFlag.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowshortexpand">allowShortExpand</h3>
+				<a href="#allowshortexpand" id="allowshortexpand" style="color: inherit; text-decoration: none;">
+					<h3>allowShortExpand</h3>
+				</a>
 				<p>Allows expanding -abc to -a -b -c.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowshortvalues">allowShortValues</h3>
+				<a href="#allowshortvalues" id="allowshortvalues" style="color: inherit; text-decoration: none;">
+					<h3>allowShortValues</h3>
+				</a>
 				<p>Allows short flags to have values.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowduplicateoptions">allowDuplicateOptions</h3>
+				<a href="#allowduplicateoptions" id="allowduplicateoptions" style="color: inherit; text-decoration: none;">
+					<h3>allowDuplicateOptions</h3>
+				</a>
 				<p>Allows --tag red --tag green --tag blue which will be stored in an array.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowdotnotation">allowDotNotation</h3>
+				<a href="#allowdotnotation" id="allowdotnotation" style="color: inherit; text-decoration: none;">
+					<h3>allowDotNotation</h3>
+				</a>
 				<p>Allows --user.name bob to result in { name: &#39;bob&#39;}.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowboolnegation">allowBoolNegation</h3>
+				<a href="#allowboolnegation" id="allowboolnegation" style="color: inherit; text-decoration: none;">
+					<h3>allowBoolNegation</h3>
+				</a>
 				<p>Allows --no-force to set --force flag to false.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowcountoptions">allowCountOptions</h3>
+				<a href="#allowcountoptions" id="allowcountoptions" style="color: inherit; text-decoration: none;">
+					<h3>allowCountOptions</h3>
+				</a>
 				<p>Allows -vvvvv to result in { v: 5 }.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowvariadics">allowVariadics</h3>
+				<a href="#allowvariadics" id="allowvariadics" style="color: inherit; text-decoration: none;">
+					<h3>allowVariadics</h3>
+				</a>
 				<p>Allows arguments to be grouped in an array.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowanonymous">allowAnonymous</h3>
+				<a href="#allowanonymous" id="allowanonymous" style="color: inherit; text-decoration: none;">
+					<h3>allowAnonymous</h3>
+				</a>
 				<p>Allows anonymous arguments when false flags/args must have configuration.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>true</td></tr>
 				</table>
-				<h3 id="allowextendargs">allowExtendArgs</h3>
+				<a href="#allowextendargs" id="allowextendargs" style="color: inherit; text-decoration: none;">
+					<h3>allowExtendArgs</h3>
+				</a>
 				<p>When true args in _ are extend to result object by name.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>false</td></tr>
 				</table>
-				<h3 id="allowplaceholderargs">allowPlaceholderArgs</h3>
+				<a href="#allowplaceholderargs" id="allowplaceholderargs" style="color: inherit; text-decoration: none;">
+					<h3>allowPlaceholderArgs</h3>
+				</a>
 				<p>When true result._ args set as null when no value.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>false</td></tr>
 				</table>
-				<h3 id="allowplaceholderoptions">allowPlaceholderOptions</h3>
+				<a href="#allowplaceholderoptions" id="allowplaceholderoptions" style="color: inherit; text-decoration: none;">
+					<h3>allowPlaceholderOptions</h3>
+				</a>
 				<p>When true if a configured option is not present a placeholder is set.</p>
 				<table>
 					<tr><td>Type</td><td>boolean</td></tr>
 					<tr><td>Default</td><td>false</td></tr>
 				</table>
-				<h3 id="onparsererror">onParserError</h3>
+				<a href="#onparsererror" id="onparsererror" style="color: inherit; text-decoration: none;">
+					<h3>onParserError</h3>
+				</a>
 				<p>When null errors are thrown otherwise handled by specified handler.</p>
 				<table>
 					<tr><td>Type</td><td>function</td></tr>
 					<tr><td>Default</td><td>undefined</td></tr>
 				</table>
-				<h2 id="docs">Docs</h2>
+				<a href="#docs" id="docs" style="color: inherit; text-decoration: none;">
+					<h2>Docs</h2>
+				</a>
 				<p>See <a href="https://blujedis.github.io/kawkah-parser/">https://blujedis.github.io/kawkah-parser/</a></p>
-				<h2 id="change">Change</h2>
+				<a href="#change" id="change" style="color: inherit; text-decoration: none;">
+					<h2>Change</h2>
+				</a>
 				<p>See <a href="CHANGE.md">CHANGE.md</a></p>
-				<h2 id="license">License</h2>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
 				<p>See <a href="LICENSE">LICENSE.md</a></p>
 			</div>
 		</div>
@@ -242,20 +281,20 @@
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_constants_.html">"constants"</a>
+					<li class=" tsd-kind-module">
+						<a href="modules/_constants_.html">&quot;constants&quot;</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_index_.html">"index"</a>
+					<li class=" tsd-kind-module">
+						<a href="modules/_index_.html">&quot;index&quot;</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_interfaces_.html">"interfaces"</a>
+					<li class=" tsd-kind-module">
+						<a href="modules/_interfaces_.html">&quot;interfaces&quot;</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_parser_.html">"parser"</a>
+					<li class=" tsd-kind-module">
+						<a href="modules/_parser_.html">&quot;parser&quot;</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_utils_.html">"utils"</a>
+					<li class=" tsd-kind-module">
+						<a href="modules/_utils_.html">&quot;utils&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -271,62 +310,20 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
 				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>

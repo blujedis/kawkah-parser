@@ -504,7 +504,7 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
     // HANDLE DEFAULTS //
 
     let curVal = hasIndex ? _result._[config.index] : get(_result, k);
-    let normalVal = ensureDefault(curVal, castType(config.default, config));
+    let normalVal = ensureDefault(curVal, config.default);
 
     // If exists normalize and ensure
     // the default value.
@@ -526,6 +526,8 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
 
     // When parsing from Kawkah we'll handle aliases there.
     if (hasOwn(config, 'alias') && options.allowAliases) {
+
+
 
       const aliases = !Array.isArray(config.alias) ? [config.alias] : config.alias;
 

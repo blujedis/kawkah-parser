@@ -1,4 +1,11 @@
 "use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var chek_1 = require("chek");
 var util_1 = require("util");
@@ -24,7 +31,7 @@ function parse(argv, options) {
             args[_i - 1] = arguments[_i];
         }
         var template = message;
-        message = util_1.format.apply(void 0, [message].concat(args));
+        message = util_1.format.apply(void 0, __spreadArrays([message], args));
         var err = new Error(message);
         if (!options.onParserError)
             throw err;
@@ -381,7 +388,7 @@ function parse(argv, options) {
         var exists = hasIndex ? !chek_1.isUndefined(_result._[config.index]) : chek_1.has(_result, k);
         // HANDLE DEFAULTS //
         var curVal = hasIndex ? _result._[config.index] : chek_1.get(_result, k);
-        var normalVal = utils_1.ensureDefault(curVal, castType(config.default, config));
+        var normalVal = utils_1.ensureDefault(curVal, config.default);
         // If exists normalize and ensure
         // the default value.
         if (exists) {
