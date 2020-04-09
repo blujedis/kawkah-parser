@@ -24,6 +24,9 @@ var utils_1 = require("./utils");
 function parse(argv, options) {
     options = Object.assign({}, constants_1.PARSER_DEFAULTS, options);
     var _result = { _: [], __: [] };
+    var raw = process.argv.slice(2);
+    if (process.env.NODE_ENV === 'test')
+        raw = raw.slice(raw.indexOf('--bail') + 1);
     var _configs, _aliases, _indexed, _maxIndex;
     function handleError(message) {
         var args = [];
@@ -342,9 +345,13 @@ function parse(argv, options) {
     if (utils_1.isType.string(argv))
         argv = argv.trim();
     // Use provided argv or use process args.
-    argv = argv || process.argv.slice(2);
+    var hasArgv = !!argv;
+    argv = argv || __spreadArrays(raw);
     // Expand args into an array.
     argv = utils_1.expandArgs(argv);
+    // Args manually passed. 
+    if (hasArgv)
+        raw = __spreadArrays(argv);
     // Check if has abort flag if true slice
     // array and store in abort array.
     var abortIdx = argv.indexOf('--');
@@ -432,6 +439,7 @@ function parse(argv, options) {
             ctr++;
         }
     }
+    _result._raw = raw;
     return _result;
 }
 exports.parse = parse;

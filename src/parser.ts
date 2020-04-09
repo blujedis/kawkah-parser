@@ -19,6 +19,10 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
   options = Object.assign({}, PARSER_DEFAULTS, options);
 
   const _result: any = { _: [], __: [] };
+  let raw = process.argv.slice(2);
+
+  if (process.env.NODE_ENV === 'test')
+    raw = raw.slice(raw.indexOf('--bail') + 1);
 
   let _configs, _aliases, _indexed, _maxIndex;
 
@@ -438,10 +442,16 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
   if (isType.string(argv)) argv = (argv as string).trim();
 
   // Use provided argv or use process args.
-  argv = argv || process.argv.slice(2);
+  const hasArgv = !!argv;
+
+  argv = argv || [...raw];
 
   // Expand args into an array.
   argv = expandArgs(argv);
+
+  // Args manually passed. 
+  if (hasArgv)
+    raw = [...argv];
 
   // Check if has abort flag if true slice
   // array and store in abort array.
@@ -556,6 +566,8 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
       ctr++;
     }
   }
+
+  _result._raw = raw;
 
   return _result;
 

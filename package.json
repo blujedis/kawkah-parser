@@ -1,6 +1,6 @@
 {
   "name": "kawkah-parser",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple CLI argument parser used by Kawkah.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -8,7 +8,7 @@
     "docs": "node ./build docs",
     "build": "node ./build build",
     "bump": "node ./build bump",
-    "test": "node ./build test",
+    "test": "NODE_ENV=test node ./build test",
     "release": "node ./build release"
   },
   "repository": {
