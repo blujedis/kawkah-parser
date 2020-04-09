@@ -83,6 +83,6 @@ export interface IKawkahParserOptions extends IKawhakParserBaseOptions {
 export interface IKawkahParserResult {
   _?: any[];
   __?: any[];
-  _raw: string[];
+  _raw?: string[];
   [key: string]: any;
 }

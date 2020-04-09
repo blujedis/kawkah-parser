@@ -2,6 +2,12 @@
 
 Changes in descending order.
 
+### 04.08.2020 (v1.0.3)
+
+<table>
+  <tr><td>add raw</td><td>add a key in result containing raw unprocessed arguments.</td></tr>
+</table>
+
 ### 08.26.2018 (v1.0.0)
 
 <table>
