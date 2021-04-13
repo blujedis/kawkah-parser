@@ -119,6 +119,7 @@ const actions = {
     glob = parsed.commands[0] ? parsed.commands[0] : testName ? testName : glob;
     opts = ['mocha', glob, ...opts];
     const args = opts.join(' '); // 'mocha --opts ./src/mocha.opts';
+    console.log(args);
     stiks.exec.command('nyc', args);
   },
 
