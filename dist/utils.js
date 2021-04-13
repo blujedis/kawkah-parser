@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var escape = require("escape-string-regexp");
-var chek_1 = require("chek");
-var constants_1 = require("./constants");
-var util_1 = require("util");
+exports.stripTokens = exports.stripVariadic = exports.stripNegate = exports.stripFlag = exports.isArgVariadicRequired = exports.isArgVariadic = exports.isNegateFlag = exports.expandOptions = exports.expandArgs = exports.isArgDotNotation = exports.isArgAny = exports.isArgRequiredAny = exports.isArgOptionalAny = exports.isArg = exports.isArgOptional = exports.isArgRequired = exports.isDotNotationFlag = exports.isFlagNext = exports.isFlagCount = exports.isFlagPrev = exports.isFlagShort = exports.isFlagAny = exports.isFlag = exports.toCamelcase = exports.isType = exports.toType = exports.hasOwn = exports.isTruthyVariadic = exports.isLikeBoolean = exports.isLikeNumber = exports.ensureDefault = void 0;
+const escape = require("escape-string-regexp");
+const chek_1 = require("chek");
+const constants_1 = require("./constants");
+const util_1 = require("util");
 /**
  * Ensures a default value when current is undefined.
  *
@@ -60,7 +61,7 @@ exports.toType = {
      *
      * @param val the value to convert.
      */
-    string: function (val) {
+    string: (val) => {
         val = ensureDefault(val, constants_1.DEFAULT_TYPE_VALUES.string);
         return String(val);
     },
@@ -69,7 +70,7 @@ exports.toType = {
      *
      * @param val the value to convert.
      */
-    boolean: function (val) {
+    boolean: (val) => {
         val = ensureDefault(val, constants_1.DEFAULT_TYPE_VALUES.boolean);
         return Boolean(/^false$/i.test(val) ? false : val);
     },
@@ -78,7 +79,7 @@ exports.toType = {
      *
      * @param val the value to convert.
      */
-    number: function (val) {
+    number: (val) => {
         val = ensureDefault(val, constants_1.DEFAULT_TYPE_VALUES.number);
         return Number(val);
     },
@@ -87,7 +88,7 @@ exports.toType = {
      *
      * @param val the value to convert.
      */
-    array: function (val) {
+    array: (val) => {
         val = ensureDefault(val, constants_1.DEFAULT_TYPE_VALUES.array);
         if (!Array.isArray(val))
             val = [val];
@@ -100,25 +101,25 @@ exports.isType = {
      *
      * @param val the value to inspect.
      */
-    string: function (val) { return typeof val === 'string'; },
+    string: (val) => typeof val === 'string',
     /**
      * Checks if is a boolean.
      *
      * @param val the value to inspect.
      */
-    boolean: function (val) { return typeof val === 'boolean'; },
+    boolean: (val) => typeof val === 'boolean',
     /**
      * Checks if is a number.
      *
      * @param val the value to inspect.
      */
-    number: function (val) { return typeof val === 'number'; },
+    number: (val) => typeof val === 'number',
     /**
      * Checks if is an array.
      *
      * @param val the value to inspect.
      */
-    array: function (val) { return Array.isArray(val); }
+    array: (val) => Array.isArray(val)
 };
 /**
  * Camelize string, ignore dot notation strings when strict.
@@ -126,8 +127,7 @@ exports.isType = {
  * @param val the value to camelize
  * @param strict when true dot notation values ignored.
  */
-function toCamelcase(val, strict) {
-    if (strict === void 0) { strict = true; }
+function toCamelcase(val, strict = true) {
     if (!strict || !/\S+\.[^\.]\S+/.test(val))
         return chek_1.camelcase(val);
     return val;
@@ -312,8 +312,8 @@ function expandArgs(val, match, safe) {
     function replacer(p, c) {
         p.a[p.a.length - 1] += c.replace(/\\(.)/, '$1');
     }
-    var all = safe.concat(match);
-    var result = val.match(/\\?.|^$/g).reduce(function (p, c) {
+    const all = safe.concat(match);
+    const result = val.match(/\\?.|^$/g).reduce((p, c) => {
         if (~all.indexOf(c)) {
             p.quote ^= 1;
             if (~safe.indexOf(c))
@@ -338,11 +338,11 @@ exports.expandArgs = expandArgs;
  */
 function expandOptions(val, allowValues) {
     val = val || [];
-    var trail = [];
+    let trail = [];
     return val.reduce(function (a, c) {
         if (!constants_1.FLAG_SHORT.test(c) || constants_1.FLAG_COUNT.test(c))
             return a.concat(c);
-        var split = c.slice(1).split('').map(function (n) { return "-" + n; });
+        const split = c.slice(1).split('').map(n => `-${n}`);
         if (allowValues)
             return a.concat(split);
         trail = trail.concat(split); // shift to end can't have values.
@@ -414,7 +414,7 @@ exports.stripFlag = stripFlag;
  */
 function stripNegate(val, negate) {
     negate = escape(negate || constants_1.NEGATE_CHAR);
-    var exp = new RegExp('^' + negate);
+    const exp = new RegExp('^' + negate);
     return val.replace(exp, '');
 }
 exports.stripNegate = stripNegate;
@@ -426,7 +426,7 @@ exports.stripNegate = stripNegate;
  */
 function stripVariadic(val, variadic) {
     variadic = escape(variadic || constants_1.VARIADIC_CHAR);
-    var exp = new RegExp(variadic + '$');
+    const exp = new RegExp(variadic + '$');
     return val.replace(exp, '');
 }
 exports.stripVariadic = stripVariadic;
@@ -442,11 +442,11 @@ exports.stripVariadic = stripVariadic;
 function stripTokens(val, negate, variadic) {
     variadic = escape(variadic || constants_1.VARIADIC_CHAR);
     negate = escape(negate || constants_1.NEGATE_CHAR);
-    var argExp = new RegExp(['<', '>', '\\[', '\\]'].join('|'), 'g');
-    var noExp = new RegExp('^' + negate);
-    var variExp = new RegExp(variadic + '$');
+    const argExp = new RegExp(['<', '>', '\\[', '\\]'].join('|'), 'g');
+    const noExp = new RegExp('^' + negate);
+    const variExp = new RegExp(variadic + '$');
     return expandArgs(val)
-        .map(function (v) {
+        .map(v => {
         v = v
             .replace(constants_1.FLAG_EXP, '')
             .replace(noExp, '')

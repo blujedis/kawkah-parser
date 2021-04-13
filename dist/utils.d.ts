@@ -1,4 +1,4 @@
-import { IKawkahParserToTypes, IKawkahParserIsType } from './interfaces';
+import { IKawkahParserToTypes, IKawkahParserIsType } from './types';
 /**
  * Ensures a default value when current is undefined.
  *

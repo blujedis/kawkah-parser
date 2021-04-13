@@ -1,6 +1,6 @@
 import * as escape from 'escape-string-regexp';
 import { isUndefined, isNumber, camelcase } from 'chek';
-import { IKawkahParserToTypes, IKawkahParserIsType } from './interfaces';
+import { IKawkahParserToTypes, IKawkahParserIsType } from './types';
 import { LIKE_BOOLEAN, LIKE_NUMBER, LIKE_HEX_NUMBER, FLAG_EXP, FLAG_SHORT, FLAG_COUNT, FLAG_DOT_NOTA, ARG_REQ, ARG_OPT, ARG_DOT_NOTA, NEGATE_CHAR, VARIADIC_CHAR, FLAG_EXP_ANY, ARG_OPT_ANY, ARG_REQ_ANY, DEFAULT_TYPE_VALUES } from './constants';
 import { isNullOrUndefined } from 'util';
 

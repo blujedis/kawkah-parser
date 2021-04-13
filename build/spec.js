@@ -8,7 +8,7 @@ const ts = require('ts-node');
 
 // Options
 const options = {
-  project: './src/tsconfig.spec.json',
+  project: './tsconfig.spec.json',
   ignoreWarnings: true,
   disableWarnings: true,
   fast: true

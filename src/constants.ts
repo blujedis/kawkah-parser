@@ -1,4 +1,4 @@
-import { IKawkahParserOptions } from './interfaces';
+import { IKawkahParserOptions } from './types';
 
 export const FLAG_EXP = /^--?/;
 export const FLAG_SHORT = /^-(?!-).+$/;

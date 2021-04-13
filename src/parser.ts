@@ -2,7 +2,7 @@ import { get, set, has, camelcase, flatten, isValue, isUndefined } from 'chek';
 import { format } from 'util';
 import { PARSER_DEFAULTS, SUPPORTED_TYPES } from './constants';
 import { expandArgs, isFlag, isNegateFlag, isFlagCount, expandOptions, isLikeBoolean, isLikeNumber, stripFlag, hasOwn, isDotNotationFlag, stripTokens, ensureDefault, isFlagShort, toType, isType, isTruthyVariadic, toCamelcase, stripVariadic } from './utils';
-import { IKawkahParserOptions, IKawkahParserConfig, IKawkahParsedArg, IKawkahParserConfigs, IKawkahParserResult } from './interfaces';
+import { IKawkahParserOptions, IKawkahParserConfig, IKawkahParsedArg, IKawkahParserConfigs, IKawkahParserResult } from './types';
 
 /**
  * Parses provided arguments or uses process.argv.
@@ -23,8 +23,6 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
 
   if (process.env.NODE_ENV === 'test')
     raw = raw.slice(raw.indexOf('--bail') + 1);
-
-  let _configs, _aliases, _indexed, _maxIndex;
 
   function handleError(message: string, ...args: any[]) {
     const template = message;
@@ -183,7 +181,7 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
     const hasFlagShort = isFlagShort(arg);
     let hasNegate = isNegateFlag(arg, options.charNegate);
     let hasCount = isFlagCount(arg);
-    let hasDotNotation = isDotNotationFlag(arg);
+    const hasDotNotation = isDotNotationFlag(arg);
 
     const next = (arr[i + 1]) + '';
     const nextHasFlag = isFlag(next);
@@ -434,10 +432,10 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
   if (!normalized)
     return;
 
-  _configs = normalized.configs;
-  _aliases = normalized.aliasMap;
-  _indexed = normalized.indexKeys;
-  _maxIndex = Math.max(..._indexed);
+  const _configs = normalized.configs;
+  const _aliases = normalized.aliasMap;
+  const _indexed = normalized.indexKeys;
+  const _maxIndex = Math.max(..._indexed);
 
   if (isType.string(argv)) argv = (argv as string).trim();
 
@@ -509,12 +507,12 @@ export function parse(argv?: string | any[], options?: IKawkahParserOptions): IK
     config = <IKawkahParserConfig>config;
     const hasIndex = hasOwn(config, 'index');
 
-    let exists = hasIndex ? !isUndefined(_result._[config.index]) : has(_result, k);
+    const exists = hasIndex ? !isUndefined(_result._[config.index]) : has(_result, k);
 
     // HANDLE DEFAULTS //
 
-    let curVal = hasIndex ? _result._[config.index] : get(_result, k);
-    let normalVal = ensureDefault(curVal, config.default);
+    const curVal = hasIndex ? _result._[config.index] : get(_result, k);
+    const normalVal = ensureDefault(curVal, config.default);
 
     // If exists normalize and ensure
     // the default value.

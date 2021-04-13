@@ -1,4 +1,4 @@
-import { IKawkahParserOptions, IKawkahParserResult } from './interfaces';
+import { IKawkahParserOptions, IKawkahParserResult } from './types';
 /**
  * Parses provided arguments or uses process.argv.
  *

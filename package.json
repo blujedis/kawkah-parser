@@ -1,6 +1,6 @@
 {
   "name": "kawkah-parser",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Simple CLI argument parser used by Kawkah.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -59,18 +59,20 @@
   "homepage": "https://github.com/blujedis/kawkah-parser#readme",
   "devDependencies": {
     "@types/mocha": "^7.0.2",
-    "@types/node": "^13.9.8",
-    "chai": "^4.2.0",
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
+    "@types/node": "^14.14.37",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "chai": "^4.3.4",
+    "eslint": "^7.15.0",
+    "mocha": "^8.3.2",
+    "nyc": "^15.1.0",
     "stiks": "^1.1.6",
-    "ts-node": "^8.8.1",
-    "tslint": "^6.1.0",
-    "typedoc": "^0.17.3",
-    "typescript": "^3.8.3"
+    "ts-node": "^9.1.1",
+    "typedoc": "^0.20.35",
+    "typescript": "^4.2.4"
   },
   "dependencies": {
     "chek": "^1.3.3",
-    "escape-string-regexp": "^2.0.0"
+    "escape-string-regexp": "^4.0.0"
   }
 }

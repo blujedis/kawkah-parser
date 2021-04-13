@@ -1,16 +1,10 @@
 "use strict";
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var chek_1 = require("chek");
-var util_1 = require("util");
-var constants_1 = require("./constants");
-var utils_1 = require("./utils");
+exports.parse = void 0;
+const chek_1 = require("chek");
+const util_1 = require("util");
+const constants_1 = require("./constants");
+const utils_1 = require("./utils");
 /**
  * Parses provided arguments or uses process.argv.
  *
@@ -23,19 +17,14 @@ var utils_1 = require("./utils");
  */
 function parse(argv, options) {
     options = Object.assign({}, constants_1.PARSER_DEFAULTS, options);
-    var _result = { _: [], __: [] };
-    var raw = process.argv.slice(2);
+    const _result = { _: [], __: [] };
+    let raw = process.argv.slice(2);
     if (process.env.NODE_ENV === 'test')
         raw = raw.slice(raw.indexOf('--bail') + 1);
-    var _configs, _aliases, _indexed, _maxIndex;
-    function handleError(message) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
-        var template = message;
-        message = util_1.format.apply(void 0, __spreadArrays([message], args));
-        var err = new Error(message);
+    function handleError(message, ...args) {
+        const template = message;
+        message = util_1.format(message, ...args);
+        const err = new Error(message);
         if (!options.onParserError)
             throw err;
         options.onParserError(err, template, args);
@@ -46,11 +35,11 @@ function parse(argv, options) {
         return _configs[_aliases[key]];
     }
     function castType(val, config) {
-        var result = val;
+        let result = val;
         // This is a variadic value, iterate
         // each element and ensure type.
         if (Array.isArray(val)) {
-            result = val.map(function (v) { return castType(v, config); });
+            result = val.map(v => castType(v, config));
         }
         else {
             if (config.type === 'boolean') {
@@ -78,31 +67,31 @@ function parse(argv, options) {
         return result;
     }
     function normalize() {
-        var aliasMap = {};
-        var variadicKeys = [];
-        var indexKeys = [];
-        var configs = options.options;
-        var _loop_2 = function (k) {
+        const aliasMap = {};
+        const variadicKeys = [];
+        const indexKeys = [];
+        const configs = options.options;
+        for (const k in configs) {
             if (utils_1.isType.string(configs[k])) {
                 configs[k] = {
                     type: configs[k]
                 };
             }
-            var config = configs[k];
+            const config = configs[k];
             configs[k]['name'] = configs[k]['name'] || k;
             config.type = config.type || 'string';
             // Ensure supported type.
             if (utils_1.hasOwn(config, 'type') && !~constants_1.SUPPORTED_TYPES.indexOf(config.type)) {
-                handleError("Type %s is not in supported types of %s.", config.type, constants_1.SUPPORTED_TYPES.join(', '));
-                return { value: false };
+                handleError(`Type %s is not in supported types of %s.`, config.type, constants_1.SUPPORTED_TYPES.join(', '));
+                return false;
             }
             config.alias = utils_1.toType.array(config.alias);
             if (utils_1.hasOwn(config, 'index')) {
                 // Can't have dupe configs at
                 // the same index.
                 if (~indexKeys.indexOf(config.index)) {
-                    handleError("Removing %s with duplicate index %s, the configuration already exists.", k, config.index);
-                    return { value: false };
+                    handleError(`Removing %s with duplicate index %s, the configuration already exists.`, k, config.index);
+                    return false;
                 }
                 aliasMap[k] = config.index;
                 aliasMap[config.index] = k;
@@ -115,21 +104,16 @@ function parse(argv, options) {
             if (config.variadic)
                 variadicKeys.push(k);
             aliasMap[k] = k;
-            configs[k].alias = config.alias.map(function (v) {
+            configs[k].alias = config.alias.map(v => {
                 v = utils_1.stripFlag(v, options.charNegate);
                 aliasMap[v] = k; // update all aliases.
                 return v;
             });
-        };
-        for (var k in configs) {
-            var state_1 = _loop_2(k);
-            if (typeof state_1 === "object")
-                return state_1.value;
         }
         return {
-            aliasMap: aliasMap,
-            indexKeys: indexKeys,
-            configs: configs
+            aliasMap,
+            indexKeys,
+            configs
         };
     }
     function breakoutArg(arg) {
@@ -138,12 +122,12 @@ function parse(argv, options) {
                 key: arg,
                 value: null
             };
-        var hasFlag = utils_1.isFlag(arg);
+        const hasFlag = utils_1.isFlag(arg);
         if (hasFlag)
             arg = utils_1.stripFlag(arg, options.charNegate);
         else
             arg = utils_1.stripVariadic(arg, options.charVariadic);
-        var split = arg.split('=');
+        const split = arg.split('=');
         if (hasFlag && options.allowCamelcase)
             split[0] = utils_1.toCamelcase(split[0]);
         return {
@@ -153,17 +137,17 @@ function parse(argv, options) {
     }
     function parseArg(arg, arr, i) {
         arg = arg + '';
-        var hasFlag = utils_1.isFlag(arg);
-        var hasSplit = ~arg.indexOf('=');
-        var hasFlagShort = utils_1.isFlagShort(arg);
-        var hasNegate = utils_1.isNegateFlag(arg, options.charNegate);
-        var hasCount = utils_1.isFlagCount(arg);
-        var hasDotNotation = utils_1.isDotNotationFlag(arg);
-        var next = (arr[i + 1]) + '';
-        var nextHasFlag = utils_1.isFlag(next);
-        var nextHasCount = utils_1.isFlagCount(next);
-        var nextHasVariadic = next.endsWith(options.charVariadic);
-        var isLast = i === (arr.length - 1);
+        const hasFlag = utils_1.isFlag(arg);
+        const hasSplit = ~arg.indexOf('=');
+        const hasFlagShort = utils_1.isFlagShort(arg);
+        let hasNegate = utils_1.isNegateFlag(arg, options.charNegate);
+        let hasCount = utils_1.isFlagCount(arg);
+        const hasDotNotation = utils_1.isDotNotationFlag(arg);
+        const next = (arr[i + 1]) + '';
+        const nextHasFlag = utils_1.isFlag(next);
+        let nextHasCount = utils_1.isFlagCount(next);
+        let nextHasVariadic = next.endsWith(options.charVariadic);
+        const isLast = i === (arr.length - 1);
         // CHECK ENABLED //
         if (!options.allowCountOptions) {
             hasCount = false;
@@ -176,22 +160,22 @@ function parse(argv, options) {
             nextHasVariadic = false;
         }
         // BREAKOUT KEY //
-        var x = _aliases;
-        var keyVal = breakoutArg(arg);
-        var key = _aliases[keyVal.key] || keyVal.key;
-        var value = keyVal.value;
+        const x = _aliases;
+        const keyVal = breakoutArg(arg);
+        let key = _aliases[keyVal.key] || keyVal.key;
+        let value = keyVal.value;
         // LOOKUP CONFIG //
-        var idx = !_result._.length ? 0 : _result._.length;
-        var confKey = !hasFlag ? idx : key;
-        var config = getConfig(confKey) || { anon: true };
+        const idx = !_result._.length ? 0 : _result._.length;
+        const confKey = !hasFlag ? idx : key;
+        const config = getConfig(confKey) || { anon: true };
         // CHECK BOOL //
-        var flagIsBool = (hasFlag && !hasCount && !hasSplit) && (nextHasFlag || nextHasVariadic || config.type === 'boolean' || isLast);
+        let flagIsBool = (hasFlag && !hasCount && !hasSplit) && (nextHasFlag || nextHasVariadic || config.type === 'boolean' || isLast);
         // If a flag and a type is specified it's not boolean.
         if (hasFlag && config.type && config.type !== 'boolean')
             flagIsBool = false;
         // CHECK IF FLAG VALUE //
         // Should check current config for bool in iteration.
-        var hasFlagValue = hasFlag && (!nextHasFlag && !nextHasCount && !nextHasVariadic && !isLast && !hasCount && !keyVal.value && config.type !== 'boolean');
+        let hasFlagValue = hasFlag && (!nextHasFlag && !nextHasCount && !nextHasVariadic && !isLast && !hasCount && !keyVal.value && config.type !== 'boolean');
         // CHECK SHORT VALUES //
         if (hasFlagShort && !options.allowShortValues) {
             hasFlagValue = false;
@@ -199,8 +183,8 @@ function parse(argv, options) {
                 flagIsBool = true;
         }
         // CHECK VARIADIC //
-        var hasVariadic;
-        var configVariadic = utils_1.isTruthyVariadic(config.variadic);
+        let hasVariadic;
+        const configVariadic = utils_1.isTruthyVariadic(config.variadic);
         // Check if variadic if enabled, allow config.variadic to override option.
         if (options.allowVariadics) {
             // Can't have variadics with flags.
@@ -215,8 +199,8 @@ function parse(argv, options) {
             config.variadic = false;
         }
         // CHECK SHOULD INGEST //
-        var shouldIngest = hasFlagValue || hasVariadic;
-        var ingestable = !hasFlag && !hasVariadic && !utils_1.hasOwn(config, 'index');
+        const shouldIngest = hasFlagValue || hasVariadic;
+        const ingestable = !hasFlag && !hasVariadic && !utils_1.hasOwn(config, 'index');
         // CHECK CAMELCASE //
         // Check key for camelcase.
         if (options.allowCamelcase && hasFlag && utils_1.isType.string(key) && !hasDotNotation)
@@ -259,12 +243,12 @@ function parse(argv, options) {
         if (!_indexed.length)
             return arr;
         // Previous argument.
-        var prev = parseArg(arr[0], arr, 0);
+        let prev = parseArg(arr[0], arr, 0);
         // Reduce array and reorder for parsing.
-        var reordered = arr.reduce(function (a, c, i) {
+        const reordered = arr.reduce((a, c, i) => {
             if (c === '')
                 return a;
-            var parsed = parseArg(c, arr, i);
+            const parsed = parseArg(c, arr, i);
             if (!parsed.isFlag && !prev.isFlagWithValue)
                 a.indexed.push(c);
             else
@@ -275,12 +259,12 @@ function parse(argv, options) {
         return reordered.indexed.concat(reordered.remainder);
     }
     function setArg(key, val, config) {
-        var cur;
+        let cur;
         // Duplicate options are disabled.
         if (key && utils_1.hasOwn(_result, key) && !options.allowDuplicateOptions)
             return;
         if (key) {
-            var getKey = utils_1.isType.number(key) ? "_[" + key + "]" : key;
+            const getKey = utils_1.isType.number(key) ? `_[${key}]` : key;
             cur = chek_1.get(_result, getKey);
             // If exists ensure is array if
             // duplicate values are allowed.
@@ -301,23 +285,23 @@ function parse(argv, options) {
     }
     function ingest(arr, i, parsed) {
         // const result = parsed.value ? [parsed.value] : [];
-        var result = [];
+        const result = [];
         // If not flag with value adjust index.
         if (!parsed.isFlagWithValue)
             result.push(parsed.value);
         // The primary configuration.
-        var config = parsed.config;
+        const config = parsed.config;
         // Counter used when variadic has specified count.
-        var ctr = result.length;
+        let ctr = result.length;
         // Holds current index.
-        var n;
+        let n;
         // Variadic specifies a specific count.
-        var count = utils_1.isType.number(config.variadic) ? config.variadic : null;
+        const count = utils_1.isType.number(config.variadic) ? config.variadic : null;
         // Otherwise ingest args until max count or reaches
         // another flag, negate or variadic.
         for (n = i + 1; n < arr.length; n++) {
-            var arg = arr[n] + '';
-            var ingestable = !utils_1.isFlag(arg) &&
+            const arg = arr[n] + '';
+            const ingestable = !utils_1.isFlag(arg) &&
                 !arg.endsWith(options.charVariadic) &&
                 (count === null || ctr < count);
             // If hit should eat arg don't break
@@ -334,27 +318,27 @@ function parse(argv, options) {
         };
     }
     // Normalize any option configurations.
-    var normalized = normalize();
+    const normalized = normalize();
     // Errored normalizing abort.
     if (!normalized)
         return;
-    _configs = normalized.configs;
-    _aliases = normalized.aliasMap;
-    _indexed = normalized.indexKeys;
-    _maxIndex = Math.max.apply(Math, _indexed);
+    const _configs = normalized.configs;
+    const _aliases = normalized.aliasMap;
+    const _indexed = normalized.indexKeys;
+    const _maxIndex = Math.max(..._indexed);
     if (utils_1.isType.string(argv))
         argv = argv.trim();
     // Use provided argv or use process args.
-    var hasArgv = !!argv;
-    argv = argv || __spreadArrays(raw);
+    const hasArgv = !!argv;
+    argv = argv || [...raw];
     // Expand args into an array.
     argv = utils_1.expandArgs(argv);
     // Args manually passed. 
     if (hasArgv)
-        raw = __spreadArrays(argv);
+        raw = [...argv];
     // Check if has abort flag if true slice
     // array and store in abort array.
-    var abortIdx = argv.indexOf('--');
+    const abortIdx = argv.indexOf('--');
     if (~abortIdx) {
         _result.__ = argv.slice(abortIdx + 1);
         argv = argv.slice(0, abortIdx);
@@ -367,18 +351,18 @@ function parse(argv, options) {
     // install /some/path --force.
     argv = reorderArgs(argv);
     // PARSE ARGUMENTS //
-    for (var i = 0; i < argv.length; i++) {
-        var k = argv[i];
+    for (let i = 0; i < argv.length; i++) {
+        const k = argv[i];
         // Parse the argument returning helpers.
-        var parsed = parseArg(k, argv, i);
+        const parsed = parseArg(k, argv, i);
         // Anonymous flags/args are not allowed.
         if (!options.allowAnonymous && parsed.config.anon) {
-            var label = parsed.isFlag ? 'Flag' : 'Argument';
-            handleError("%s %s failed: invalidated by anonymous prohibited (value: %s).", label, parsed.key, parsed.value);
+            const label = parsed.isFlag ? 'Flag' : 'Argument';
+            handleError(`%s %s failed: invalidated by anonymous prohibited (value: %s).`, label, parsed.key, parsed.value);
             break;
         }
         if (parsed.ingest) {
-            var tmp = ingest(argv, i, parsed);
+            const tmp = ingest(argv, i, parsed);
             i = tmp.i;
             setArg(parsed.key, tmp.val, parsed.config);
         }
@@ -388,14 +372,15 @@ function parse(argv, options) {
             setArg(parsed.key, parsed.value, parsed.config);
         }
     }
-    var _loop_1 = function (k) {
-        var config = _configs[k];
+    // DEFAULTS, EXTEND ALIASES & ARGS //
+    for (const k in _configs) {
+        let config = _configs[k];
         config = config;
-        var hasIndex = utils_1.hasOwn(config, 'index');
-        var exists = hasIndex ? !chek_1.isUndefined(_result._[config.index]) : chek_1.has(_result, k);
+        const hasIndex = utils_1.hasOwn(config, 'index');
+        const exists = hasIndex ? !chek_1.isUndefined(_result._[config.index]) : chek_1.has(_result, k);
         // HANDLE DEFAULTS //
-        var curVal = hasIndex ? _result._[config.index] : chek_1.get(_result, k);
-        var normalVal = utils_1.ensureDefault(curVal, config.default);
+        const curVal = hasIndex ? _result._[config.index] : chek_1.get(_result, k);
+        const normalVal = utils_1.ensureDefault(curVal, config.default);
         // If exists normalize and ensure
         // the default value.
         if (exists) {
@@ -414,9 +399,9 @@ function parse(argv, options) {
         // HANDLE ALIASES //
         // When parsing from Kawkah we'll handle aliases there.
         if (utils_1.hasOwn(config, 'alias') && options.allowAliases) {
-            var aliases = !Array.isArray(config.alias) ? [config.alias] : config.alias;
+            const aliases = !Array.isArray(config.alias) ? [config.alias] : config.alias;
             // Update object with aliases.
-            aliases.forEach(function (a) {
+            aliases.forEach(a => {
                 if (exists || options.allowPlaceholderOptions)
                     _result[a] = chek_1.get(_result, k);
             });
@@ -424,15 +409,11 @@ function parse(argv, options) {
         // HANDLE EXTEND ARGS //
         if (options.allowExtendArgs && hasIndex)
             _result[k] = _result._[config.index];
-    };
-    // DEFAULTS, EXTEND ALIASES & ARGS //
-    for (var k in _configs) {
-        _loop_1(k);
     }
     // When allow placeholders are enabled ensures that we
     // don't end up with undefined or empty array elements.
     if (options.allowPlaceholderArgs) {
-        var ctr = 0;
+        let ctr = 0;
         while (ctr < _maxIndex) {
             if (chek_1.isUndefined(_result._[ctr]))
                 _result._[ctr] = null;

@@ -1,4 +1,4 @@
-import { IKawkahParserOptions } from './interfaces';
+import { IKawkahParserOptions } from './types';
 export declare const FLAG_EXP: RegExp;
 export declare const FLAG_SHORT: RegExp;
 export declare const FLAG_DOT_NOTA: RegExp;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DEFAULT_TYPE_VALUES = exports.PARSER_DEFAULTS = exports.SUPPORTED_TYPES = exports.ABORT_CHAR = exports.VARIADIC_CHAR = exports.NEGATE_CHAR = exports.ARG_REQ_ANY = exports.ARG_OPT_ANY = exports.FLAG_EXP_ANY = exports.LIKE_HEX_NUMBER = exports.LIKE_NUMBER = exports.LIKE_BOOLEAN = exports.ARG_DOT_NOTA = exports.ARG_REQ = exports.ARG_OPT = exports.FLAG_COUNT = exports.FLAG_DOT_NOTA = exports.FLAG_SHORT = exports.FLAG_EXP = void 0;
 exports.FLAG_EXP = /^--?/;
 exports.FLAG_SHORT = /^-(?!-).+$/;
 exports.FLAG_DOT_NOTA = /^--.+\./;

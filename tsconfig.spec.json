@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "noEmit": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": ".",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "target": "esnext"
+  },
+  "include": [
+    "./**/*.spec.ts"
+  ]
+}

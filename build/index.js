@@ -44,7 +44,7 @@ const actions = {
   },
 
   compile: (watch) => {
-    let args = './node_modules/typescript/bin/tsc -p ./src/tsconfig.json';
+    let args = './node_modules/typescript/bin/tsc -p ./tsconfig.json';
     args += (watch ? ' -w' : '');
     args = normalize(args);
     stiks.exec.node(args);
@@ -58,7 +58,7 @@ const actions = {
   },
 
   docs: () => {
-    let args = './node_modules/typedoc/bin/typedoc --out ./docs ./src --options ./typedoc.json';
+    let args = './node_modules/typedoc/bin/typedoc --options ./typedoc.json';
     args = normalize(args);
     stiks.exec.node(args);
     stiks.exec.command('touch', './docs/.nojekyll');
