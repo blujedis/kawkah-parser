@@ -10,8 +10,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const parser_1 = require("./parser");
 __exportStar(require("./constants"), exports);
 __exportStar(require("./types"), exports);
 __exportStar(require("./utils"), exports);
 __exportStar(require("./parser"), exports);
+exports.default = parser_1.parse;
 //# sourceMappingURL=index.js.map

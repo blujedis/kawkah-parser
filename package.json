@@ -1,6 +1,6 @@
 {
   "name": "kawkah-parser",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple CLI argument parser used by Kawkah.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
